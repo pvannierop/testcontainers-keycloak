@@ -58,7 +58,7 @@ class KeyCloakConfig extends KeycloakWebSecurityConfigurerAdapter {
 
     @Override
     protected KeycloakAuthenticationProvider keycloakAuthenticationProvider() {
-        var provider = super.keycloakAuthenticationProvider();
+        KeycloakAuthenticationProvider provider = super.keycloakAuthenticationProvider();
         provider.setGrantedAuthoritiesMapper(grantedAuthoritiesMapper());
         return provider;
     }
@@ -98,7 +98,7 @@ class KeyCloakConfig extends KeycloakWebSecurityConfigurerAdapter {
      */
     @Bean
     public FilterRegistrationBean keycloakAuthenticationProcessingFilterRegistrationBean(final KeycloakAuthenticationProcessingFilter filter) {
-        var registrationBean = new FilterRegistrationBean<>(filter);
+        FilterRegistrationBean<KeycloakAuthenticationProcessingFilter> registrationBean = new FilterRegistrationBean<>(filter);
         registrationBean.setEnabled(false);
         return registrationBean;
     }
@@ -111,7 +111,7 @@ class KeyCloakConfig extends KeycloakWebSecurityConfigurerAdapter {
      */
     @Bean
     public FilterRegistrationBean keycloakPreAuthActionsFilterRegistrationBean(final KeycloakPreAuthActionsFilter filter) {
-        var registrationBean = new FilterRegistrationBean<>(filter);
+        FilterRegistrationBean<KeycloakPreAuthActionsFilter> registrationBean = new FilterRegistrationBean<>(filter);
         registrationBean.setEnabled(false);
         return registrationBean;
     }

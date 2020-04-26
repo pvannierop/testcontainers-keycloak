@@ -2,7 +2,6 @@ package dev.cremich.testcontainers.utils;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.io.IOException;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.springframework.http.HttpEntity;
@@ -15,6 +14,8 @@ import org.testcontainers.containers.Container;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.utility.MountableFile;
+
+import java.io.IOException;
 
 public class KeycloakContainerTest {
 
@@ -40,17 +41,17 @@ public class KeycloakContainerTest {
   }
 
   protected static String getAccessToken(String username, String password, String clientId, String realm) {
-    var restTemplate = new RestTemplate();
-    var headers = new HttpHeaders();
+    RestTemplate restTemplate = new RestTemplate();
+    HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
-    var map = new LinkedMultiValueMap<>();
+    LinkedMultiValueMap<Object, Object> map = new LinkedMultiValueMap<>();
     map.add("grant_type", "password");
     map.add("client_id", clientId);
     map.add("username", username);
     map.add("password", password);
-    var token = restTemplate.postForObject(keycloakHost + "/auth/realms/" + realm + "/protocol/openid-connect/token",
-        new HttpEntity<>(map, headers), KeyCloakToken.class);
+    KeyCloakToken token = restTemplate.postForObject(keycloakHost + "/auth/realms/" + realm + "/protocol/openid-connect/token",
+            new HttpEntity<>(map, headers), KeyCloakToken.class);
 
     assert token != null;
     return token.getAccessToken();
